@@ -5,3 +5,9 @@
 1	114	1759732533547554441	CMakeFiles/stm32_template.dir/main.c.obj	c694c0387296a4bf
 1	120	1759732533547102209	CMakeFiles/stm32_template.dir/stm32/system_stm32f10x.c.obj	357d8f1de9ffb680
 120	143	1759732533666550619	build/stm32_template.elf	919f0b9a82a6821e
+5	15	1759767294449934788	clean	ad90e366ad70d77b
+2	117	1759767294537429859	CMakeFiles/stm32_template.dir/stm32/startup/startup_stm32f10x_md.c.obj	9261f0d669d2c2b7
+3	118	1759767294538089119	CMakeFiles/stm32_template.dir/syscalls/syscalls.c.obj	3bed2b924c71755f
+3	133	1759767294538492684	CMakeFiles/stm32_template.dir/main.c.obj	c694c0387296a4bf
+3	134	1759767294537858672	CMakeFiles/stm32_template.dir/stm32/system_stm32f10x.c.obj	357d8f1de9ffb680
+135	175	1759767294669820931	build/stm32_template.elf	919f0b9a82a6821e
