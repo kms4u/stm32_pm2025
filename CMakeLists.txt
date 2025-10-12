@@ -57,6 +57,9 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/.gdbinit DESTINATION ${EXECUTABLE_OUTPUT_P
 
 add_executable(${TARGET_NAME} ${SOURCE_FILES})
 
+target_link_libraries(${TARGET_NAME} gcc m)
+
+
 # Targets for make firmware in different formats
 set(BIN_TARGET "${EXECUTABLE_OUTPUT_PATH}/${TARGET_NAME}.bin")
 set(HEX_TARGET "${EXECUTABLE_OUTPUT_PATH}/${TARGET_NAME}.hex")
