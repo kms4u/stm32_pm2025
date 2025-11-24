@@ -1,13 +1,78 @@
-CMakeFiles/
+# ----------------------------------------
+# Build directories
+# ----------------------------------------
 build/
-.idea
-*.cbp
-*.bak
-*.bin
+cmake-build*/
+CMakeFiles/
+Testing/
+
+# ----------------------------------------
+# CMake cache and generated files
+# ----------------------------------------
+CMakeCache.txt
+cmake_install.cmake
+CMakeScripts/
+CTestTestfile.cmake
+install_manifest.txt
+
+# ----------------------------------------
+# Ninja build artifacts
+# ----------------------------------------
+build.ninja
+.ninja_deps
+.ninja_log
+rules.ninja
+
+# ----------------------------------------
+# Make build artifacts
+# ----------------------------------------
+Makefile
+*.make
+
+# ----------------------------------------
+# Object files and binaries
+# ----------------------------------------
+*.o
+*.obj
+*.a
 *.elf
+*.bin
 *.hex
 *.map
-CMakeCache.txt
-[M,m]akefile
 
+# ----------------------------------------
+# Debugging and toolchain files
+# ----------------------------------------
+.gdbinit
+*.svd
+*.launch
+*.uvopt*
+*.uvproj*
+*.dep
 
+# ----------------------------------------
+# Logs and temporary files
+# ----------------------------------------
+*.log
+*.tmp
+*.bak
+
+# ----------------------------------------
+# IDE editors
+# ----------------------------------------
+# VSCode
+.vscode/
+# CLion / JetBrains
+.idea/
+cmake-build-*/
+
+# ----------------------------------------
+# macOS system files
+# ----------------------------------------
+.DS_Store
+
+# ----------------------------------------
+# Python virtual envs (если вдруг используются)
+# ----------------------------------------
+venv/
+.env/

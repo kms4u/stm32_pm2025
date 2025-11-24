@@ -44,10 +44,6 @@ set(SOURCE_FILES
         syscalls/syscalls.c
         main.c
 
-        stm32/spi1.c
-        stm32/ssd1306.c
-        stm32/delay.c
-        stm32/ssd1306.c
 )
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/.gdbinit DESTINATION ${EXECUTABLE_OUTPUT_PATH})

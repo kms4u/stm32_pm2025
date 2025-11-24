@@ -85,33 +85,6 @@ build CMakeFiles/stm32_template.dir/main.c.obj: C_COMPILER__stm32_template_unsca
   OBJECT_DIR = CMakeFiles/stm32_template.dir
   OBJECT_FILE_DIR = CMakeFiles/stm32_template.dir
 
-build CMakeFiles/stm32_template.dir/stm32/spi1.c.obj: C_COMPILER__stm32_template_unscanned_Release /Users/pavelsokolov/stm32_pm2025/stm32/spi1.c || cmake_object_order_depends_target_stm32_template
-  CONFIG = Release
-  DEFINES = -DSTM32F103C8 -DSTM32F10X_MD
-  DEP_FILE = CMakeFiles/stm32_template.dir/stm32/spi1.c.obj.d
-  FLAGS = -mcpu=cortex-m3 -mthumb -std=c99 -fdata-sections -ffunction-sections -mlittle-endian -g3 -fno-move-loop-invariants -fsigned-char -ffreestanding -O3 -DNDEBUG -fdiagnostics-color=always
-  INCLUDES = -I/Users/pavelsokolov/stm32_pm2025/cmsis -I/Users/pavelsokolov/stm32_pm2025/stm32
-  OBJECT_DIR = CMakeFiles/stm32_template.dir
-  OBJECT_FILE_DIR = CMakeFiles/stm32_template.dir/stm32
-
-build CMakeFiles/stm32_template.dir/stm32/ssd1306.c.obj: C_COMPILER__stm32_template_unscanned_Release /Users/pavelsokolov/stm32_pm2025/stm32/ssd1306.c || cmake_object_order_depends_target_stm32_template
-  CONFIG = Release
-  DEFINES = -DSTM32F103C8 -DSTM32F10X_MD
-  DEP_FILE = CMakeFiles/stm32_template.dir/stm32/ssd1306.c.obj.d
-  FLAGS = -mcpu=cortex-m3 -mthumb -std=c99 -fdata-sections -ffunction-sections -mlittle-endian -g3 -fno-move-loop-invariants -fsigned-char -ffreestanding -O3 -DNDEBUG -fdiagnostics-color=always
-  INCLUDES = -I/Users/pavelsokolov/stm32_pm2025/cmsis -I/Users/pavelsokolov/stm32_pm2025/stm32
-  OBJECT_DIR = CMakeFiles/stm32_template.dir
-  OBJECT_FILE_DIR = CMakeFiles/stm32_template.dir/stm32
-
-build CMakeFiles/stm32_template.dir/stm32/delay.c.obj: C_COMPILER__stm32_template_unscanned_Release /Users/pavelsokolov/stm32_pm2025/stm32/delay.c || cmake_object_order_depends_target_stm32_template
-  CONFIG = Release
-  DEFINES = -DSTM32F103C8 -DSTM32F10X_MD
-  DEP_FILE = CMakeFiles/stm32_template.dir/stm32/delay.c.obj.d
-  FLAGS = -mcpu=cortex-m3 -mthumb -std=c99 -fdata-sections -ffunction-sections -mlittle-endian -g3 -fno-move-loop-invariants -fsigned-char -ffreestanding -O3 -DNDEBUG -fdiagnostics-color=always
-  INCLUDES = -I/Users/pavelsokolov/stm32_pm2025/cmsis -I/Users/pavelsokolov/stm32_pm2025/stm32
-  OBJECT_DIR = CMakeFiles/stm32_template.dir
-  OBJECT_FILE_DIR = CMakeFiles/stm32_template.dir/stm32
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target stm32_template
@@ -120,7 +93,7 @@ build CMakeFiles/stm32_template.dir/stm32/delay.c.obj: C_COMPILER__stm32_templat
 #############################################
 # Link the executable build/stm32_template.elf
 
-build build/stm32_template.elf: C_EXECUTABLE_LINKER__stm32_template_Release CMakeFiles/stm32_template.dir/stm32/startup/startup_stm32f10x_md.c.obj CMakeFiles/stm32_template.dir/stm32/system_stm32f10x.c.obj CMakeFiles/stm32_template.dir/syscalls/syscalls.c.obj CMakeFiles/stm32_template.dir/main.c.obj CMakeFiles/stm32_template.dir/stm32/spi1.c.obj CMakeFiles/stm32_template.dir/stm32/ssd1306.c.obj CMakeFiles/stm32_template.dir/stm32/delay.c.obj
+build build/stm32_template.elf: C_EXECUTABLE_LINKER__stm32_template_Release CMakeFiles/stm32_template.dir/stm32/startup/startup_stm32f10x_md.c.obj CMakeFiles/stm32_template.dir/stm32/system_stm32f10x.c.obj CMakeFiles/stm32_template.dir/syscalls/syscalls.c.obj CMakeFiles/stm32_template.dir/main.c.obj
   CONFIG = Release
   FLAGS = -mcpu=cortex-m3 -mthumb -std=c99 -fdata-sections -ffunction-sections -mlittle-endian -g3 -fno-move-loop-invariants -fsigned-char -ffreestanding -O3 -DNDEBUG
   LINK_FLAGS = -nostdlib -nostartfiles -Xlinker -Map -Xlinker stm32_template.map  -Xlinker -T /Users/pavelsokolov/stm32_pm2025/stm32f103c8.ld -Wl,--gc-sections
