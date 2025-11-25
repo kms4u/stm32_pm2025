@@ -1,71 +1,77 @@
-#include <stm32f10x.h>
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
+#include <libopencm3/stm32/timer.h>
+#include <libopencm3/cm3/nvic.h>
 
-volatile uint32_t led_state = 0;
+static void gpio_setup(void) {
+    rcc_periph_clock_enable(RCC_GPIOA);
+    rcc_periph_clock_enable(RCC_GPIOC);
 
-// --- Прерывание таймера TIM2 ---
-void TIM2_IRQHandler(void) {
-    if (TIM2->SR & TIM_SR_UIF) {
-        TIM2->SR &= ~TIM_SR_UIF; // сброс флага
+    // PC13 — LED
+    gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ,
+                  GPIO_CNF_OUTPUT_PUSHPULL, GPIO13);
 
-        // инверсия светодиода на PC13
-        GPIOC->ODR ^= (1U << 13);
+    // PA0, PA1 — вход с подтяжкой вверх
+    gpio_set_mode(GPIOA, GPIO_MODE_INPUT,
+                  GPIO_CNF_INPUT_PULL_UPDOWN, GPIO0 | GPIO1);
+
+    // включаем подтяжку вверх
+    gpio_set(GPIOA, GPIO0 | GPIO1);
+}
+
+// переменная для предделителя TIM2
+static uint32_t tim2_psc = 7999;
+
+static void tim2_setup(void) {
+    rcc_periph_clock_enable(RCC_TIM2);
+
+    timer_set_prescaler(TIM2, tim2_psc);
+    timer_set_period(TIM2, 500);
+
+    timer_enable_irq(TIM2, TIM_DIER_UIE);
+    nvic_enable_irq(NVIC_TIM2_IRQ);
+
+    timer_generate_event(TIM2, TIM_EGR_UG);
+    timer_enable_counter(TIM2);
+}
+
+void tim2_isr(void) {
+    if (timer_get_flag(TIM2, TIM_SR_UIF)) {
+        timer_clear_flag(TIM2, TIM_SR_UIF);
+        gpio_toggle(GPIOC, GPIO13);
     }
 }
 
-// ожидание отпускания кнопки
-void wait_button_release(uint32_t pin) {
-    while (!(GPIOA->IDR & (1U << pin))) {
-        // ждём отпускания
+static void wait_button_release(uint16_t pin_mask) {
+    while (!gpio_get(GPIOA, pin_mask)) {
+        // ждать отпускания
     }
-    for (volatile int i = 0; i < 100000; i++); // антидребезг ~20–30 мс
+    for (volatile int i = 0; i < 100000; i++); // антидребезг
 }
 
 int main(void) {
-    SystemInit();
-
-    // тактирование портов и TIM2
-    RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
-    RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
-    RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-
-    // PC13 как выход (LED)
-    GPIOC->CRH &= ~GPIO_CRH_CNF13;
-    GPIOC->CRH |= GPIO_CRH_MODE13_0;
-
-    // PA0, PA1 — вход с подтяжкой вверх
-    GPIOA->CRL &= ~((GPIO_CRL_MODE0 | GPIO_CRL_CNF0) |
-                    (GPIO_CRL_MODE1 | GPIO_CRL_CNF1));
-    GPIOA->CRL |= (GPIO_CRL_CNF0_1 | GPIO_CRL_CNF1_1);
-    GPIOA->ODR |= (1U << 0) | (1U << 1);
-
-    // --- Настройка TIM2 ---
-    TIM2->PSC = 7999;      // предделитель (1 кГц при 8 МГц)
-    TIM2->ARR = 500;       // период таймера = 500 мс мигания
-
-    TIM2->DIER |= TIM_DIER_UIE; // разрешить прерывание по обновлению
-    NVIC_EnableIRQ(TIM2_IRQn);
-
-    TIM2->CR1 |= TIM_CR1_CEN;  // запуск таймера
+    gpio_setup();
+    tim2_setup();
 
     while (1) {
-        // кнопка PA0 — увеличить период (уменьшить частоту)
-        if (!(GPIOA->IDR & (1U << 0))) {
-            wait_button_release(0);
+        // PA0 — увеличить PSC
+        if (!gpio_get(GPIOA, GPIO0)) {
+            wait_button_release(GPIO0);
 
-            // увеличиваем предделитель:
-            TIM2->PSC = TIM2->PSC << 1;
+            tim2_psc <<= 1;
+            timer_set_prescaler(TIM2, tim2_psc);
+            timer_generate_event(TIM2, TIM_EGR_UG);
         }
 
-        // кнопка PA1 — уменьшить период (увеличить частоту)
-        if (!(GPIOA->IDR & (1U << 1))) {
-            wait_button_release(1);
+        // PA1 — уменьшить PSC
+        if (!gpio_get(GPIOA, GPIO1)) {
+            wait_button_release(GPIO1);
 
-            // уменьшаем предделитель:
-            TIM2->PSC = TIM2->PSC >> 1;
+            tim2_psc >>= 1;
+            if (tim2_psc == 0) tim2_psc = 1;
 
-            // защита от нуля (иначе таймер сломается)
-            if (TIM2->PSC == 0)
-                TIM2->PSC = 1;
+            timer_set_prescaler(TIM2, tim2_psc);
+            timer_generate_event(TIM2, TIM_EGR_UG);
         }
     }
 }
